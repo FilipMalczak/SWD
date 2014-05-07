@@ -37,6 +37,26 @@ ignored = ['not', '(', ')']
 
 
 def parse(expression):
+    '''
+    Creates a function from a logical expression.
+    In the expression you have to separate every token by a space and
+    specify calculation orders by using braces ()
+    Available operators:
+    & - and
+    V - or
+    => - implication
+    nor - nor
+    nad - nand
+    not - not
+    Example inputs:
+    ( a1 & a2 ) => a3
+    ( not a1 ) V a2
+    ( a1 & a2 ) => ( ( not a1 ) V a2 )
+    @expression: String containing a logical expression created according to
+                mentioned rules
+    @returns: function with as many arguments, as there were variables in the
+                expression sorted alphabetically
+    '''
     vars = set()
     exsplit = expression.split(" ")
     for index, symbol in enumerate(exsplit):
@@ -60,6 +80,6 @@ if __name__ == '__main__':
     foo = parse(ex)
     print(foo(False, True))
 
-    ex = "( a1 & a2 ) => ( not a1 V a2 )"
+    ex = "( a1 & a2 ) => ( ( not a1 ) V a2 )"
     foo = parse(ex)
     print(foo(False, False))
