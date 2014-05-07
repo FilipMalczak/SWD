@@ -1,0 +1,4 @@
+analysis:
+ - a1 & a2
+synthesis:
+ - a4

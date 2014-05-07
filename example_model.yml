@@ -1,0 +1,12 @@
+input:
+  - a1
+  - a2
+
+internal:
+  - a3
+
+output:
+  - a4
+
+facts:
+  - ( a1 V a2 ) => a4
