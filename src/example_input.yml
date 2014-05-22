@@ -1,4 +1,1 @@
-analysis:
-
-synthesis:
- - ay1 ^ ay2
+task: ay1 ^ ay2
