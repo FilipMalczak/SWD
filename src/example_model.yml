@@ -1,0 +1,21 @@
+input:
+  - au1
+  - au2
+  - au3
+  - au4
+  - au5
+  - au6
+
+internal:
+
+output:
+  - ay1
+  - ay2
+  - ay3
+
+facts:
+  - ay1 <=> ( au1 ^ au2 )
+  - ay2 <=> ( au3 ^ au4 )
+  - ay3 <=> ( au5 ^ au6 )
+  - ay2 => ay1
+  - ay3 => ay2

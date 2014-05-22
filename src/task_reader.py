@@ -7,16 +7,17 @@ class Task:
         self.fact = fact
 
 
-def read_tasks(path):
+def read_tasks(path, model):
     with open(path, 'r') as f:
         tasks = yaml.load(f)
-    return parse_model(tasks)
+    return parse_tasks(tasks, model)
 
-def parse_model(_tasks):
+def parse_tasks(_tasks, model):
     tasks = []
     for type in ['analysis', 'synthesis']:
-        for task in _tasks[type]:
-            tasks.append(Task(type, parse(task)))
+        if _tasks[type]:
+            for task in _tasks[type]:
+                tasks.append(Task(type, parse(task, model)))
 
     return tasks
 

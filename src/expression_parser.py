@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-# From http://code.activestate.com/recipes/384122/ (via http://stackoverflow.com/questions/932328/python-defining-my-own-operators)
+from decorators import cached
+
 class Infix:
     def __init__(self, function):
         self.function = function
@@ -23,12 +24,13 @@ booleans = [False,True]
 operators=[
     #(Infix(lambda p,q: False),                  "F"),
     #(Infix(lambda p,q: True),                   "T"),
-    (Infix(lambda p,q: p and q),                "&"),
-    (Infix(lambda p,q: p or q)           ,      "V"),
-    (Infix(lambda p,q: p != q)           ,      "^"),
-    (Infix(lambda p,q: ((not p) or not q)),     "nad"),
-    (Infix(lambda p,q: ((not p) and not q)),    "nor"),
-    (Infix(lambda p,q: ((not p) or q)),         "=>"),
+    (Infix(cached(lambda p,q: p and q)),                                  "^"),
+    (Infix(cached(lambda p,q: p or q))           ,                        "V"),
+    #(Infix(cached(lambda p,q: p != q))           ,                        "^"),
+    (Infix(cached(lambda p,q: ((not p) or not q))),                     "nad"),
+    (Infix(cached(lambda p,q: ((not p) and not q))),                    "nor"),
+    (Infix(cached(lambda p,q: ((not p) or q))),                          "=>"),
+    (Infix(cached(lambda p,q: ((not p) and (not q)) or (p and q))),     "<=>")
     ]
     
 ops = {sym: op for op,sym in operators}
@@ -36,7 +38,7 @@ ops = {sym: op for op,sym in operators}
 ignored = ['not', '(', ')']
 
 
-def parse(expression):
+def parse(expression, model):
     '''
     Creates a function from a logical expression.
     In the expression you have to separate every token by a space and
@@ -66,20 +68,21 @@ def parse(expression):
             else:
                 exsplit[index] = "| ops['" + symbol + "'] |" 
     vars = sorted(list(vars))
-    output = "lambda " + ",".join(vars) + ": " + " ".join(exsplit)
-    return eval(output)
+    output = "lambda " + ",".join(model.formulas) + ": " + " ".join(exsplit)
+    foo = eval(output)
+    return cached(foo)
 
 
 if __name__ == '__main__':
 
-    ex = "( a1 & a2 ) => a3"
+    ex = "a1 <=> a2"
     foo = parse(ex)
-    print(foo(True, True, False))
+    print(foo(True, True))
 
-    ex = "( not a1 ) V a2"
+    ex = "a1 <=> a2"
     foo = parse(ex)
     print(foo(False, True))
 
-    ex = "( a1 & a2 ) => ( ( not a1 ) V a2 )"
+    ex = "a1 <=> a2"
     foo = parse(ex)
     print(foo(False, False))
