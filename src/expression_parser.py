@@ -17,8 +17,6 @@ class Infix:
         return self.function(value1, value2)
 
 
-booleans = [False,True]
-
 # http://stackoverflow.com/questions/16405892/is-there-an-implication-logical-operator-in-python
 # http://jacob.jkrall.net/lost-operator/
 operators=[
@@ -60,15 +58,10 @@ def parse(expression, model):
     @returns: function with as many arguments, as there were variables in the
                 expression sorted alphabetically
     '''
-    vars = set()
     exsplit = expression.split(" ")
     for index, symbol in enumerate(exsplit):
-        if symbol not in ignored:
-            if symbol not in ops:
-                vars.add(symbol)
-            else:
-                exsplit[index] = "| ops['" + symbol + "'] |" 
-    vars = sorted(list(vars))
+        if symbol not in ignored and symbol in ops:
+            exsplit[index] = "| ops['" + symbol + "'] |"
     output = "lambda " + ",".join(model.formulas) + ": " + " ".join(exsplit)
     foo = eval(output)
     return cached(foo)
