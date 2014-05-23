@@ -16,13 +16,14 @@ from solver import Solver
 from config import NOT, AND, OR
 from docopt import docopt
 
-def format_fact(final_set):
+def format_fact(final_set, model):
     return (OR+"\n").join(
         "(" + \
             AND.join(
                 (
                     ( "" if alpha else (NOT) ) + \
-                    ("au%s" % i )
+                    #("au%s" % i )
+                    (model.input[i])
                 )
                 for i, alpha in enumerate(alphas)
             ) +\
@@ -30,15 +31,15 @@ def format_fact(final_set):
         for alphas in final_set
     )
 
-def format_simplified_fact(simplified):
+def format_simplified_fact(simplified, model):
     result = []
     for alphas in simplified:
         foo = []
         for i, alpha in enumerate(alphas):
             if alpha == '0':
-                foo.append(NOT + 'au%s' %i)
+                foo.append(NOT + model.input[i])
             elif alpha == '1':
-                foo.append('au%s' % i)
+                foo.append(model.input[i])
         result.append('(' + AND.join(foo) + ')')
     return (OR+"\n").join(result)
 
@@ -74,7 +75,7 @@ if __name__ == '__main__':
         print("="*40)
 
     print("Fu")
-    print(format_fact(sorted(list(s))))
+    print(format_fact(sorted(list(s)), model))
 
     print("="*40)
 
@@ -89,6 +90,6 @@ if __name__ == '__main__':
     simplified = qm.simplify(ones_decimal)
     print("Simplified Fu")
     print(simplified)
-    print(format_simplified_fact(simplified))
+    print(format_simplified_fact(simplified, model))
 
 
