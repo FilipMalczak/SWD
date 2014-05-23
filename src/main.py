@@ -30,6 +30,21 @@ def format_fact(final_set):
         for alphas in final_set
     )
 
+def format_simplified_fact(simplified):
+    result = []
+    for alphas in simplified:
+        foo = []
+        for i, alpha in enumerate(alphas):
+            if alpha == '0':
+                foo.append(NOT + 'au%s' %i)
+            elif alpha == '1':
+                foo.append('au%s' % i)
+        result.append('(' + AND.join(foo) + ')')
+    return (OR+"\n").join(result)
+
+
+
+
 TASK_PATH = 'example_input.yml'
 
 if __name__ == '__main__':
@@ -60,5 +75,20 @@ if __name__ == '__main__':
 
     print("Fu")
     print(format_fact(sorted(list(s))))
+
+    print("="*40)
+
+    #https://pypi.python.org/pypi/quine_mccluskey/0.2
+    from quine_mccluskey.qm import QuineMcCluskey
+
+    qm = QuineMcCluskey()
+    ones = []
+    for _s in s:
+        ones.append(''.join(['1' if b else '0' for b in _s]))
+    ones_decimal = [int(b, 2) for b in ones]
+    simplified = qm.simplify(ones_decimal)
+    print("Simplified Fu")
+    print(simplified)
+    print(format_simplified_fact(simplified))
 
 
