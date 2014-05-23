@@ -89,7 +89,8 @@ if __name__ == '__main__':
     ones_decimal = [int(b, 2) for b in ones]
     simplified = qm.simplify(ones_decimal)
     print("Simplified Fu")
-    print(simplified)
+    if arguments['--verbose']:
+        print(simplified)
     print(format_simplified_fact(simplified, model))
 
 
