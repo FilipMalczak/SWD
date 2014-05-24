@@ -15,15 +15,16 @@ from task_reader import read_task
 from solver import Solver
 from config import NOT, AND, OR
 from docopt import docopt
+from translator import Translator
 
 def format_fact(final_set, model):
-    return (OR+"\n").join(
+    return (OR['symbol']+"\n").join(
         "(" + \
-            AND.join(
+            AND['symbol'].join(
                 (
-                    ( "" if alpha else (NOT) ) + \
+                    ( "" if alpha else (NOT['symbol']) ) + \
                     #("au%s" % i )
-                    (model.input[i])
+                    (model.input[i]['symbol'])
                 )
                 for i, alpha in enumerate(alphas)
             ) +\
@@ -37,11 +38,11 @@ def format_simplified_fact(simplified, model):
         foo = []
         for i, alpha in enumerate(alphas):
             if alpha == '0':
-                foo.append(NOT + model.input[i])
+                foo.append(NOT['symbol'] + model.input[i]['symbol'])
             elif alpha == '1':
-                foo.append(model.input[i])
-        result.append('(' + AND.join(foo) + ')')
-    return (OR+"\n").join(result)
+                foo.append(model.input[i]['symbol'])
+        result.append('(' + AND['symbol'].join(foo) + ')')
+    return (OR['symbol']+"\n").join(result)
 
 
 
@@ -91,6 +92,11 @@ if __name__ == '__main__':
     print("Simplified Fu")
     if arguments['--verbose']:
         print(simplified)
-    print(format_simplified_fact(simplified, model))
+    formatted = format_simplified_fact(simplified, model)
+    print(formatted)
+    translator = Translator(model)
+    translated = translator.to_natural(formatted)
+    print(translated)
+
 
 

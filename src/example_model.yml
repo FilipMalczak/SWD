@@ -1,17 +1,29 @@
 input:
-  - au1
-  - au2
-  - au3
-  - au4
-  - au5
-  - au6
+  - symbol: au1
+    eng: Task 1 is closed
+  - symbol: au2
+    eng: Task 2 is closed
+  - symbol: au3
+    eng: Task 3 is closed
+  - symbol: au4
+    eng: Task 4 is closed
+  - symbol: au5
+    eng: Task 5 is closed
+  - symbol: au6
+    eng: Task 6 is closed
+
 
 internal:
 
 output:
-  - ay1
-  - ay2
-  - ay3
+  - symbol: ay1
+    eng: Version alpha is finished
+  - symbol: ay2
+    eng: Version beta is finished
+  - symbol: ay3
+    eng: Version final is finished
+
+
 
 facts:
   - ay1 <=> ( au1 ^ au2 )

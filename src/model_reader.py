@@ -8,6 +8,10 @@ class Model:
     def formulas(self):
         return self.input + self.internal + self.output
 
+    @property
+    def symbols(self):
+        return[a['symbol'] for a in self.formulas]
+
     @cached
     def f(self, *a):
         return all(fact(*a) for fact in self.facts)

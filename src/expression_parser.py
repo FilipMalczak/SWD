@@ -62,7 +62,7 @@ def parse(expression, model):
     for index, symbol in enumerate(exsplit):
         if symbol not in ignored and symbol in ops:
             exsplit[index] = "| ops['" + symbol + "'] |"
-    output = "lambda " + ",".join(model.formulas) + ": " + " ".join(exsplit)
+    output = "lambda " + ",".join(model.symbols) + ": " + " ".join(exsplit)
     foo = eval(output)
     return cached(foo)
 

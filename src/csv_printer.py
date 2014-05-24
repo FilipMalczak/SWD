@@ -22,9 +22,9 @@ class CSVPrinter:
 
     def write_header(self):
         header = ";".join(
-            self.model.formulas + \
+            self.model.symbols + \
             ["F%i" % i for i in range(len(self.model.facts))] + \
-            [ "Fy", "F", "Fy"+AND+"F", NOT+"Fy"+AND+"F" ])
+            [ "Fy", "F", "Fy"+AND['symbol']+"F", NOT['symbol']+"Fy"+AND['symbol']+"F" ])
         print(header, file=self.file)
 
 
