@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from swd.decorators import cached
+from swd.config import NOT
 
 class Infix:
     def __init__(self, function):
@@ -58,6 +59,7 @@ def parse(expression, model):
     @returns: function with as many arguments, as there were variables in the
                 expression sorted alphabetically
     '''
+    expression = expression.replace(NOT['symbol'], 'not ')
     exsplit = expression.split(" ")
     for index, symbol in enumerate(exsplit):
         if symbol not in ignored and symbol in ops:

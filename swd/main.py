@@ -66,7 +66,6 @@ def print_sets(s1, s2, s):
 
 
 
-TASK_PATH = 'example_eng_input.yml'
 
 def main(args):
     old_cwd = os.getcwd()

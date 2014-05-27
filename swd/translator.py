@@ -14,6 +14,7 @@ class Translator:
 
 
     def _to_natural(self, symbol):
+        symbol = symbol.strip()
         negated = NOT['symbol'] in symbol
         if negated:
             symbol = symbol.replace(NOT['symbol'], "")
@@ -28,5 +29,5 @@ class Translator:
                     out = s['eng']
                     break
         if negated:
-            out = NOT['eng'], out
+            out = NOT['eng'] + ' ' + out
         return out
