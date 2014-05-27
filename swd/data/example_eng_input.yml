@@ -1,2 +1,9 @@
-task: Version alpha is finished and not version beta is finished
+#Available sentences:
+#  - symbol: ay1
+#    eng: Version alpha is finished
+#  - symbol: ay2
+#    eng: Version beta is finished
+#  - symbol: ay3
+#    eng: Version final is finished
+task: Version alpha is finished and version beta is finished
 representation: eng

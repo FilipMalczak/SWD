@@ -1,2 +1,9 @@
-task: ay1 ^ (~ay2)
+#Available sentences:
+#  - symbol: ay1
+#    eng: Version alpha is finished
+#  - symbol: ay2
+#    eng: Version beta is finished
+#  - symbol: ay3
+#    eng: Version final is finished
+task: ay1 ^ ~ay2
 representation: symbol
