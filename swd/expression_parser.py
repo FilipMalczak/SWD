@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from decorators import cached
+from swd.decorators import cached
 
 class Infix:
     def __init__(self, function):

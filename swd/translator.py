@@ -1,4 +1,4 @@
-from config import AND, NOT, OR
+from swd.config import AND, NOT, OR
 
 class Translator:
 

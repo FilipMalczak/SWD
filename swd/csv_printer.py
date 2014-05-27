@@ -1,4 +1,4 @@
-from config import AND, NOT, ONEZERO, CSV_PATH
+from swd.config import AND, NOT, ONEZERO, CSV_PATH
 
 class CSVPrinter:
 

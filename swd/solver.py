@@ -1,4 +1,4 @@
-from csv_printer import CSVPrinter
+from swd.csv_printer import CSVPrinter
 from itertools import product
 
 class Solver:

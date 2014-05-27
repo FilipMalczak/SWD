@@ -1,7 +1,7 @@
 import yaml
-from expression_parser import parse
-from decorators import cached
-from config import MODEL_PATH
+from swd.expression_parser import parse
+from swd.decorators import cached
+from swd.config import MODEL_PATH
 
 class Model:
     @property

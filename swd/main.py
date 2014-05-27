@@ -2,20 +2,24 @@
 Python MLA
 
 Usage:
-  main.py [<task_file>] [-v]
-  main.py -h | --help
+  run_swd.py [<task_file>] [-v]
+  run_swd.py -h | --help
 
 Options:
   -h --help     Show this screen.
   -v --verbose  Print more information on screen
 """
+import os
 
-from model_reader import read_model
-from task_reader import read_task
-from solver import Solver
-from config import NOT, AND, OR
 from docopt import docopt
-from translator import Translator
+
+from swd.model_reader import read_model
+from swd.task_reader import read_task
+from swd.solver import Solver
+from swd.config import NOT, AND, OR
+from swd.translator import Translator
+from swd.quine_mccluskey import QuineMcCluskey
+
 
 def format_fact(final_set, model):
     return (OR['symbol']+"\n").join(
@@ -44,45 +48,46 @@ def format_simplified_fact(simplified, model):
         result.append('(' + AND['symbol'].join(foo) + ')')
     return (OR['symbol']+"\n").join(result)
 
+def print_sets(s1, s2, s):
+    print("S1")
+    for _s in sorted(list(s1)):
+        print(_s)
+    print("="*40)
+
+    print("S2")
+    for _s in sorted(list(s2)):
+        print(_s)
+    print("="*40)
+
+    print("S")
+    for _s in sorted(list(s)):
+        print(_s)
+    print("="*40)
 
 
 
-TASK_PATH = 'example_input.yml'
+TASK_PATH = 'example_eng_input.yml'
 
-if __name__ == '__main__':
-    arguments = docopt(__doc__)
-    if arguments['<task_file>']:
-        TASK_PATH = arguments['<task_file>']
-
+def main(args):
+    old_cwd = os.getcwd()
+    new_cwd = os.path.dirname(__file__)
+    os.chdir(new_cwd)
+    arguments = docopt(__doc__, args[1:])
+    TASK_PATH = arguments['<task_file>']
+    if not TASK_PATH:
+        TASK_PATH = "./data/example_eng_input.yml"
     model = read_model()
     task = read_task(TASK_PATH, model)
     solver = Solver(model)
     s1, s2, s = solver.solve(task)
 
     if arguments['--verbose']:
-        print("S1")
-        for _s in sorted(list(s1)):
-            print(_s)
-        print("="*40)
-
-        print("S2")
-        for _s in sorted(list(s2)):
-            print(_s)
-        print("="*40)
-
-        print("S")
-        for _s in sorted(list(s)):
-            print(_s)
-        print("="*40)
+        print_sets(s1, s2, s)
 
     print("Fu")
     print(format_fact(sorted(list(s)), model))
 
     print("="*40)
-
-    #https://pypi.python.org/pypi/quine_mccluskey/0.2
-    from quine_mccluskey.qm import QuineMcCluskey
-
     qm = QuineMcCluskey()
     ones = []
     for _s in s:
@@ -97,6 +102,7 @@ if __name__ == '__main__':
     translator = Translator(model)
     translated = translator.to_natural(formatted)
     print(translated)
+    os.chdir(old_cwd)
 
 
 

@@ -4,8 +4,8 @@ OR = {'symbol':" v ", 'eng':'or'}
 ONE = '1'
 ZERO = '0'
 
-CSV_PATH = 'table.csv'
-MODEL_PATH = 'example_model.yml'
+CSV_PATH = '../table.csv'
+MODEL_PATH = './data/example_model.yml'
 
 ONEZERO = {
     True: ONE,
