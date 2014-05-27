@@ -37,5 +37,5 @@ def read_task(path, model):
 if __name__ == '__main__':
     from swd.model_reader import read_model
     model = read_model()
-    txt = "Version alpha is finished and Version beta is finished"
-    assert translate_english_to_symbol(txt, model) == "ay1 ^ ay2"
+    txt = "Version alpha is finished and not (Version beta is finished)"
+    print(translate_english_to_symbol(txt, model))

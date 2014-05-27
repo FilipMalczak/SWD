@@ -36,6 +36,31 @@ ops = {sym: op for op,sym in operators}
 
 ignored = ['not', '(', ')']
 
+def get_token_stream(expression):
+    # make sure that parentheses and negation is separated with space from other tokens, and not is understood by python
+    expression = expression.replace(NOT["symbol"], 'not ').replace("(", " ( ").replace(")", " ) ")
+    exsplit = expression.split(" ")
+    #remove empty token candidates
+    while "" in exsplit:
+        exsplit.remove("")
+    # enforce negation priority with parentheses
+    idx = 0
+    while idx<len(exsplit):
+        token = exsplit[idx]
+        if token == "not":
+            insert_point = idx+2
+            if exsplit[idx+1] == "(":
+                counter = 1
+                while counter:
+                    if exsplit[insert_point] == "(":
+                        counter += 1
+                    elif exsplit[insert_point] == ")":
+                        counter -= 1
+                    insert_point += 1
+            exsplit = exsplit[:idx] + [ "(" ] + exsplit[idx:insert_point] + [")"] + exsplit[insert_point:]
+            idx += 1
+        idx += 1
+    return exsplit
 
 def parse(expression, model):
     '''
@@ -59,8 +84,7 @@ def parse(expression, model):
     @returns: function with as many arguments, as there were variables in the
                 expression sorted alphabetically
     '''
-    expression = expression.replace(NOT['symbol'], 'not ')
-    exsplit = expression.split(" ")
+    exsplit = get_token_stream(expression)
     for index, symbol in enumerate(exsplit):
         if symbol not in ignored and symbol in ops:
             exsplit[index] = "| ops['" + symbol + "'] |"
@@ -71,14 +95,18 @@ def parse(expression, model):
 
 if __name__ == '__main__':
 
-    ex = "a1 <=> a2"
-    foo = parse(ex)
-    print(foo(True, True))
-
-    ex = "a1 <=> a2"
-    foo = parse(ex)
-    print(foo(False, True))
-
-    ex = "a1 <=> a2"
-    foo = parse(ex)
-    print(foo(False, False))
+    #ex = "a1 <=> a2"
+    #foo = parse(ex)
+    #print(foo(True, True))
+    #
+    #ex = "a1 <=> a2"
+    #foo = parse(ex)
+    #print(foo(False, True))
+    #
+    #ex = "a1 <=> a2"
+    #foo = parse(ex)
+    #print(foo(False, False))
+    get_token_stream("a ^ ~ b")
+    get_token_stream("~ a ^ b")
+    get_token_stream("~(a ^ b) v c ^ (~ d v e) ")
+    get_token_stream("~(a ^ b) v c ^ (~(a ^(b v c)) d v e) ")
