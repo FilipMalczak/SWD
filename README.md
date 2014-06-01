@@ -10,3 +10,8 @@ Reprezentacja wiedzy
 --------------------
 Wykorzystano logiczną reprezentację wiedzy
 
+
+Autorzy
+-------
+Filip Malczak
+Jacek Miszczak
